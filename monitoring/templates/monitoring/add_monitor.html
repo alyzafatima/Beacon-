@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Add Monitor — Beacon</title>
+
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #080a0f;
+            color: #f4f5f7;
+            font-family: "Space Grotesk", sans-serif;
+        }
+
+
+        .page {
+            min-height: 100vh;
+            padding: 35px;
+            background: #080a0f;
+        }
+
+
+        .top {
+            max-width: 850px;
+            margin: auto;
+        }
+
+
+        .back {
+            color: #666e7b;
+            text-decoration: none;
+            font-size: 11px;
+        }
+
+        .back:hover {
+            color: #958aff;
+        }
+
+
+        .header {
+            margin: 25px 0 18px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header p {
+            color: #626a77;
+            font-size: 11px;
+            margin-top: 7px;
+        }
+
+
+        .panel {
+            background: #0d1016;
+            border: 1px solid #1c2029;
+            border-radius: 10px;
+            padding: 25px;
+            max-width: 700px;
+        }
+
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+
+        label {
+            display: block;
+            font-size: 11px;
+            color: #aeb5c0;
+            margin-bottom: 7px;
+        }
+
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px 12px;
+            border-radius: 7px;
+            border: 1px solid #252b36;
+            background: #080a0f;
+            color: #e9ebef;
+            outline: none;
+            font-family: inherit;
+            font-size: 11px;
+        }
+
+
+        input:focus,
+        select:focus {
+            border-color: #7567ff;
+        }
+
+
+        .help {
+            color: #525b68;
+            font-size: 9px;
+            margin-top: 5px;
+        }
+
+
+        .error {
+            color: #ff6275;
+            font-size: 9px;
+            margin-top: 5px;
+            display: none;
+        }
+
+
+        .two {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 25px;
+            padding-top: 18px;
+            border-top: 1px solid #1c2029;
+        }
+
+
+        .cancel {
+            color: #727a87;
+            padding: 10px 14px;
+            text-decoration: none;
+            font-size: 11px;
+        }
+
+
+        .create {
+            border: none;
+            background: #7667ff;
+            color: white;
+            border-radius: 7px;
+            padding: 10px 17px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+
+        .create:hover {
+            background: #8579ff;
+        }
+
+
+        .success-box {
+            display: none;
+            margin-top: 18px;
+            background: rgba(60, 218, 153, .05);
+            border: 1px solid #234737;
+            border-radius: 9px;
+            padding: 18px;
+        }
+
+
+        .success-title {
+            color: #3cda99;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+
+        .ping-row {
+            display: flex;
+            gap: 8px;
+        }
+
+
+        .ping-url {
+            flex: 1;
+            background: #080a0f;
+            border: 1px solid #26332d;
+            color: #cfd5d0;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 10px;
+            word-break: break-all;
+        }
+
+
+        .copy-btn {
+            border: 1px solid #3a4c42;
+            background: #151b18;
+            color: #52dca0;
+            border-radius: 6px;
+            padding: 0 14px;
+            cursor: pointer;
+        }
+
+
+        .copy-btn:hover {
+            background: #1b2721;
+        }
+
+
+        .error-box {
+            display: none;
+            margin-bottom: 18px;
+            padding: 12px;
+            border: 1px solid #542631;
+            background: rgba(255, 96, 116, .06);
+            border-radius: 7px;
+            color: #ff6879;
+            font-size: 10px;
+        }
+
+
+        @media(max-width:700px) {
+
+            .page {
+                padding: 20px;
+            }
+
+            .two {
+                grid-template-columns: 1fr;
+            }
+
+            .ping-row {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+    <div class="top">
+
+
+        <a href="{% url 'dashboard' %}"
+           class="back">
+
+            ← Dashboard
+
+        </a>
+
+
+        <div class="header">
+
+            <h1>
+                Add Monitor
+            </h1>
+
+            <p>
+                Monitor your service and know when something goes down.
+            </p>
+
+        </div>
+
+
+        <div class="panel">
+
+
+            <!-- API ERROR -->
+
+            <div id="api-error"
+                 class="error-box">
+            </div>
+
+
+            <form id="monitor-form">
+
+
+                {% csrf_token %}
+
+
+                <!-- NAME -->
+
+                <div class="field">
+
+                    <label>
+                        Monitor Name *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="My Website"
+                    >
+
+                    <div id="name-error"
+                         class="error">
+                    </div>
+
+                </div>
+
+
+
+                <!-- TYPE -->
+
+                <div class="field">
+
+                    <label>
+                        Monitor Type *
+                    </label>
+
+                    <select id="monitor_type"
+                            name="monitor_type">
+
+                        <option value="http">
+                            HTTP
+                        </option>
+
+                        <option value="heartbeat">
+                            Cron / Heartbeat
+                        </option>
+
+                    </select>
+
+                    <div class="help">
+                        HTTP checks your URL. Heartbeat waits for your scheduled job to ping Beacon.
+                    </div>
+
+                </div>
+
+
+
+                <!-- HTTP URL -->
+
+                <div class="field"
+                     id="url-wrapper">
+
+                    <label>
+                        URL *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="url"
+                        name="url"
+                        placeholder="https://example.com"
+                    >
+
+                    <div id="url-error"
+                         class="error">
+                    </div>
+
+                    <div class="help">
+                        URL must start with http:// or https://
+                    </div>
+
+                </div>
+
+
+
+                <!-- HTTP OPTIONS -->
+
+                <div id="http-options">
+
+
+                    <div class="two">
+
+
+                        <div class="field">
+
+                            <label>
+                                Expected Status
+                            </label>
+
+                            <input
+                                type="number"
+                                id="expected_status"
+                                value="200"
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label>
+                                Check Interval
+                            </label>
+
+                            <input
+                                type="number"
+                                id="interval_seconds"
+                                value="60"
+                            >
+
+                            <div class="help">
+                                Seconds
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- HEARTBEAT OPTIONS -->
+
+                <div id="heartbeat-options"
+                     style="display:none;">
+
+                    <div class="two">
+
+                        <div class="field">
+
+                            <label>
+                                Expected Interval
+                            </label>
+
+                            <input
+                                type="number"
+                                id="heartbeat_interval"
+                                value="60"
+                            >
+
+                            <div class="help">
+                                How often your job should ping Beacon.
+                            </div>
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label>
+                                Grace Period
+                            </label>
+
+                            <input
+                                type="number"
+                                id="heartbeat_grace"
+                                value="300"
+                            >
+
+                            <div class="help">
+                                Extra allowed seconds.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="actions">
+
+                    <a href="{% url 'dashboard' %}"
+                       class="cancel">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="create">
+
+                        Create Monitor
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+
+            <!-- HEARTBEAT SUCCESS -->
+
+            <div id="success-box"
+                 class="success-box">
+
+                <div class="success-title">
+
+                    ✓ Heartbeat monitor created
+
+                </div>
+
+                <div style="color:#707986;font-size:10px;margin-bottom:10px;">
+
+                    Copy this URL into your cron job, GitHub Actions workflow,
+                    or scheduled script.
+
+                </div>
+
+
+                <div class="ping-row">
+
+                    <div id="ping-url"
+                         class="ping-url">
+                    </div>
+
+                    <button
+                        type="button"
+                        id="copy-button"
+                        class="copy-btn">
+
+                        Copy
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+    const form =
+        document.getElementById("monitor-form");
+
+
+    const typeSelect =
+        document.getElementById("monitor_type");
+
+
+    const urlWrapper =
+        document.getElementById("url-wrapper");
+
+
+    const httpOptions =
+        document.getElementById("http-options");
+
+
+    const heartbeatOptions =
+        document.getElementById("heartbeat-options");
+
+
+    const nameInput =
+        document.getElementById("name");
+
+
+    const urlInput =
+        document.getElementById("url");
+
+
+    const nameError =
+        document.getElementById("name-error");
+
+
+    const urlError =
+        document.getElementById("url-error");
+
+
+    const apiError =
+        document.getElementById("api-error");
+
+
+    const successBox =
+        document.getElementById("success-box");
+
+
+    const pingUrl =
+        document.getElementById("ping-url");
+
+
+    const copyButton =
+        document.getElementById("copy-button");
+
+
+
+    function updateForm() {
+
+
+        const type =
+            typeSelect.value;
+
+
+        if (type === "heartbeat") {
+
+            urlWrapper.style.display = "none";
+
+            httpOptions.style.display = "none";
+
+            heartbeatOptions.style.display = "block";
+
+        } else {
+
+            urlWrapper.style.display = "block";
+
+            httpOptions.style.display = "block";
+
+            heartbeatOptions.style.display = "none";
+
+        }
+
+    }
+
+
+    typeSelect.addEventListener(
+        "change",
+        updateForm
+    );
+
+
+    updateForm();
+
+
+
+    function clearErrors() {
+
+        nameError.style.display = "none";
+
+        urlError.style.display = "none";
+
+        apiError.style.display = "none";
+
+        nameError.innerText = "";
+
+        urlError.innerText = "";
+
+        apiError.innerText = "";
+
+    }
+
+
+
+    form.addEventListener(
+        "submit",
+        async function(event) {
+
+
+            event.preventDefault();
+
+
+            clearErrors();
+
+
+            const name =
+                nameInput.value.trim();
+
+
+            const type =
+                typeSelect.value;
+
+
+            const url =
+                urlInput.value.trim();
+
+
+            let hasError = false;
+
+
+
+            /* NAME VALIDATION */
+
+            if (!name) {
+
+                nameError.innerText =
+                    "Monitor name is required.";
+
+                nameError.style.display =
+                    "block";
+
+                hasError = true;
+
+            }
+
+
+
+            /* URL VALIDATION */
+
+            if (type === "http") {
+
+                if (!url) {
+
+                    urlError.innerText =
+                        "URL is required for HTTP monitors.";
+
+                    urlError.style.display =
+                        "block";
+
+                    hasError = true;
+
+                }
+
+                else if (
+                    !url.startsWith("http://")
+                    &&
+                    !url.startsWith("https://")
+                ) {
+
+                    urlError.innerText =
+                        "URL must start with http:// or https://.";
+
+                    urlError.style.display =
+                        "block";
+
+                    hasError = true;
+
+                }
+
+            }
+
+
+
+            if (hasError) {
+
+                return;
+
+            }
+
+
+
+            /* CREATE DATA */
+
+            const data = {
+
+                name: name,
+
+                monitor_type: type,
+
+                url: type === "http"
+                    ? url
+                    : "",
+
+                expected_status:
+                    type === "http"
+                    ? Number(
+                        document.getElementById(
+                            "expected_status"
+                        ).value
+                    )
+                    : 200,
+
+                interval_seconds:
+                    type === "http"
+                    ? Number(
+                        document.getElementById(
+                            "interval_seconds"
+                        ).value
+                    )
+                    : Number(
+                        document.getElementById(
+                            "heartbeat_interval"
+                        ).value
+                    ),
+
+                grace_period_seconds:
+                    type === "heartbeat"
+                    ? Number(
+                        document.getElementById(
+                            "heartbeat_grace"
+                        ).value
+                    )
+                    : 300
+
+            };
+
+
+
+            try {
+
+
+                const response =
+                    await fetch(
+                        "/api/monitors/",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "X-CSRFToken":
+                                    document.querySelector(
+                                        "[name=csrfmiddlewaretoken]"
+                                    ).value
+
+                            },
+
+                            body:
+                                JSON.stringify(data)
+
+                        }
+                    );
+
+
+
+                const result =
+                    await response.json();
+
+
+
+                if (!response.ok) {
+
+
+                    if (result.name) {
+
+                        nameError.innerText =
+                            result.name[0];
+
+                        nameError.style.display =
+                            "block";
+
+                    }
+
+
+                    if (result.url) {
+
+                        urlError.innerText =
+                            result.url[0];
+
+                        urlError.style.display =
+                            "block";
+
+                    }
+
+
+                    if (result.detail) {
+
+                        apiError.innerText =
+                            result.detail;
+
+                        apiError.style.display =
+                            "block";
+
+                    }
+
+
+                    if (
+                        result.non_field_errors
+                    ) {
+
+                        apiError.innerText =
+                            result.non_field_errors[0];
+
+                        apiError.style.display =
+                            "block";
+
+                    }
+
+
+                    return;
+
+                }
+
+
+
+                /* SUCCESS */
+
+                if (
+                    type === "heartbeat"
+                    &&
+                    result.heartbeat_token
+                ) {
+
+
+                    const generatedUrl =
+                        window.location.origin
+                        +
+                        "/ping/"
+                        +
+                        result.heartbeat_token
+                        +
+                        "/";
+
+
+                    pingUrl.innerText =
+                        generatedUrl;
+
+
+                    successBox.style.display =
+                        "block";
+
+
+                } else {
+
+
+                    window.location.href =
+                        "{% url 'dashboard' %}";
+
+                }
+
+
+            }
+
+            catch (error) {
+
+                apiError.innerText =
+                    "Something went wrong. Please try again.";
+
+                apiError.style.display =
+                    "block";
+
+            }
+
+        }
+    );
+
+
+
+    copyButton.addEventListener(
+        "click",
+        async function() {
+
+
+            await navigator.clipboard.writeText(
+                pingUrl.innerText
+            );
+
+
+            copyButton.innerText =
+                "Copied!";
+
+
+            setTimeout(
+                function() {
+
+                    copyButton.innerText =
+                        "Copy";
+
+                },
+                1500
+            );
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+
+</html>

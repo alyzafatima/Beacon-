@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Status Pages - Beacon</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #0b0f14;
+            color: #e6edf3;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .card {
+            background: #111820;
+            border: 1px solid #222c36;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            margin-top: 18px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #303b46;
+            background: #0b0f14;
+            color: white;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #22c55e;
+            color: #06100a;
+            font-weight: bold;
+        }
+
+        .monitor-list {
+            margin-top: 10px;
+        }
+
+        .monitor-item {
+            margin: 8px 0;
+        }
+
+        .monitor-item input {
+            width: auto;
+        }
+
+        .page {
+            padding: 18px;
+            border: 1px solid #26313b;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .page-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .slug {
+            color: #8b98a5;
+            margin-top: 5px;
+        }
+
+        a {
+            color: #22c55e;
+            text-decoration: none;
+        }
+
+        .errorlist {
+            color: #ff6b81;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div>
+            <h1>Status Pages</h1>
+            <p>
+                Create a public page where users can see your monitor status.
+            </p>
+        </div>
+
+        <a href="{% url 'dashboard' %}">
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- CREATE STATUS PAGE -->
+
+    <div class="card">
+
+        <h2>Create Status Page</h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <label>
+                Title
+            </label>
+
+            {{ form.title }}
+
+            {{ form.title.errors }}
+
+
+            <label>
+                Slug
+            </label>
+
+            {{ form.slug }}
+
+            {{ form.slug.errors }}
+
+
+            <label>
+                Select Monitors
+            </label>
+
+            <div class="monitor-list">
+
+                {{ form.monitors }}
+
+            </div>
+
+            {{ form.monitors.errors }}
+
+
+            <button type="submit">
+                Create Status Page
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- EXISTING STATUS PAGES -->
+
+    <div class="card">
+
+        <h2>Your Status Pages</h2>
+
+        {% if status_pages %}
+
+            {% for page in status_pages %}
+
+                <div class="page">
+
+                    <div class="page-title">
+                        {{ page.title }}
+                    </div>
+
+                    <div class="slug">
+                        /status/{{ page.slug }}/
+                    </div>
+
+                    <br>
+
+                    <a
+                        href="{% url 'public-status-page' page.slug %}"
+                        target="_blank"
+                    >
+                        Open Public Status Page →
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>
+                You haven't created any status pages yet.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

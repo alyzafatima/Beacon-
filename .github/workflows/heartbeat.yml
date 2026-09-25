@@ -1,0 +1,12 @@
+name: heartbeat
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: curl -f https://YOUR-URL-HERE/ping/YOUR-TOKEN-HERE/

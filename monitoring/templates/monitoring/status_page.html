@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ status_page.title }}</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            background: #0b0f14;
+            color: #e6edf3;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 50px 25px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .status {
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            background: #111820;
+            border: 1px solid #222c36;
+        }
+
+        .monitor {
+            background: #111820;
+            border: 1px solid #222c36;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 18px;
+        }
+
+        .monitor-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .up {
+            color: #22c55e;
+        }
+
+        .down {
+            color: #ff5c70;
+        }
+
+        .unknown {
+            color: #8b98a5;
+        }
+
+        .history {
+            display: flex;
+            gap: 3px;
+            height: 30px;
+        }
+
+        .bar {
+            flex: 1;
+            border-radius: 3px;
+            background: #303b46;
+        }
+
+        .bar.success {
+            background: #22c55e;
+        }
+
+        .bar.failed {
+            background: #ff5c70;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>
+            {{ status_page.title }}
+        </h1>
+
+        {% if has_down %}
+
+            <div class="status down">
+                Some monitors are currently down.
+            </div>
+
+        {% else %}
+
+            <div class="status up">
+                All systems operational.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    {% for item in monitor_data %}
+
+        <div class="monitor">
+
+            <div class="monitor-header">
+
+                <strong>
+                    {{ item.monitor.name }}
+                </strong>
+
+
+                {% if item.is_down %}
+
+                    <span class="down">
+                        Down
+                    </span>
+
+                {% elif item.latest_check %}
+
+                    <span class="up">
+                        Operational
+                    </span>
+
+                {% else %}
+
+                    <span class="unknown">
+                        No data
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="history">
+
+                {% for check in item.recent_checks reversed %}
+
+                    {% if check.success %}
+
+                        <div
+                            class="bar success"
+                            title="Successful check"
+                        ></div>
+
+                    {% else %}
+
+                        <div
+                            class="bar failed"
+                            title="Failed check"
+                        ></div>
+
+                    {% endif %}
+
+                {% empty %}
+
+                    <div class="bar"></div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <div class="status">
+            No monitors have been added to this status page.
+        </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+
+</html>

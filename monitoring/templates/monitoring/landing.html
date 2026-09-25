@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Beacon - Website Monitoring</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #0b0f14;
+            color: #e6edf3;
+            font-family: Arial, sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: auto;
+            padding: 0 25px;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #9aa7b4;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .login {
+            color: #e6edf3 !important;
+        }
+
+        .signup {
+            background: #22c55e;
+            color: #06100a !important;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        /* HERO */
+
+        .hero {
+            text-align: center;
+            padding: 100px 20px 80px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #132019;
+            color: #22c55e;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            max-width: 850px;
+            margin: auto;
+            font-size: 58px;
+            line-height: 1.05;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: 25px auto;
+            color: #9aa7b4;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .hero-button {
+            display: inline-block;
+            margin-top: 15px;
+            background: #22c55e;
+            color: #06100a;
+            padding: 14px 24px;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+        /* FEATURES */
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-title h2 {
+            font-size: 34px;
+        }
+
+        .section-title p {
+            color: #8b98a5;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .feature {
+            background: #111820;
+            border: 1px solid #222c36;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .feature h3 {
+            margin-top: 0;
+        }
+
+        .feature p {
+            color: #8b98a5;
+            line-height: 1.6;
+        }
+
+        /* PRICING */
+
+        .pricing {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .price-card {
+            background: #111820;
+            border: 1px solid #222c36;
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .price-card.featured {
+            border-color: #22c55e;
+        }
+
+        .price {
+            font-size: 38px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .price-card ul {
+            padding-left: 20px;
+            color: #9aa7b4;
+            line-height: 2;
+        }
+
+        /* FOOTER */
+
+        footer {
+            border-top: 1px solid #222c36;
+            padding: 30px 0;
+            color: #71808f;
+        }
+
+        @media (max-width: 800px) {
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .features,
+            .pricing {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            nav {
+                height: auto;
+                padding: 20px 0;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            .hero {
+                padding-top: 60px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <a href="{% url 'landing' %}" class="logo">
+            Beacon
+        </a>
+
+        <div class="nav-links">
+
+            <a href="#features">
+                Features
+            </a>
+
+            <a href="#pricing">
+                Pricing
+            </a>
+
+            <a href="{% url 'login' %}" class="login">
+                Login
+            </a>
+
+            <a href="{% url 'signup' %}" class="signup">
+                Get Started
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="badge">
+            Reliable monitoring for your services
+        </div>
+
+        <h1>
+            Know when your systems go down.
+        </h1>
+
+        <p>
+            Beacon monitors your websites and heartbeat jobs,
+            detects failures, tracks uptime and alerts you
+            when something needs attention.
+        </p>
+
+        <a
+            href="{% url 'signup' %}"
+            class="hero-button"
+        >
+            Start Monitoring
+        </a>
+
+    </section>
+
+
+    <!-- FEATURES -->
+
+    <section id="features">
+
+        <div class="section-title">
+
+            <h2>
+                Everything you need to monitor
+            </h2>
+
+            <p>
+                Simple monitoring without unnecessary complexity.
+            </p>
+
+        </div>
+
+
+        <div class="features">
+
+            <div class="feature">
+
+                <h3>
+                    HTTP Monitoring
+                </h3>
+
+                <p>
+                    Automatically check your websites and APIs
+                    and detect unexpected HTTP responses.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <h3>
+                    Heartbeat Monitoring
+                </h3>
+
+                <p>
+                    Know when scheduled jobs stop reporting
+                    their expected heartbeat.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <h3>
+                    Instant Alerts
+                </h3>
+
+                <p>
+                    Receive notifications when incidents start
+                    and when your services recover.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <h3>
+                    Incident History
+                </h3>
+
+                <p>
+                    Track failures, recoveries and monitor
+                    activity over time.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <h3>
+                    Uptime Tracking
+                </h3>
+
+                <p>
+                    See successful and failed checks and
+                    understand your service reliability.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <h3>
+                    Simple Dashboard
+                </h3>
+
+                <p>
+                    Manage your monitors and view system
+                    health from one place.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRICING -->
+
+    <section id="pricing">
+
+        <div class="section-title">
+
+            <h2>
+                Simple pricing
+            </h2>
+
+            <p>
+                Choose the plan that fits your monitoring needs.
+            </p>
+
+        </div>
+
+
+        <div class="pricing">
+
+            <div class="price-card">
+
+                <h3>
+                    Free
+                </h3>
+
+                <div class="price">
+                    $0
+                </div>
+
+                <ul>
+                    <li>5 monitors</li>
+                    <li>Basic uptime tracking</li>
+                    <li>Email alerts</li>
+                </ul>
+
+            </div>
+
+
+            <div class="price-card featured">
+
+                <h3>
+                    Pro
+                </h3>
+
+                <div class="price">
+                    $9
+                    <small>/month</small>
+                </div>
+
+                <ul>
+                    <li>50 monitors</li>
+                    <li>Advanced monitoring</li>
+                    <li>Slack alerts</li>
+                    <li>Incident history</li>
+                </ul>
+
+            </div>
+
+
+            <div class="price-card">
+
+                <h3>
+                    Business
+                </h3>
+
+                <div class="price">
+                    $29
+                    <small>/month</small>
+                </div>
+
+                <ul>
+                    <li>Unlimited monitors</li>
+                    <li>Advanced alerts</li>
+                    <li>Team monitoring</li>
+                    <li>Priority support</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div>
+            © 2026 Beacon. Monitoring made simple.
+        </div>
+
+    </footer>
+
+
+</div>
+
+</body>
+
+</html>

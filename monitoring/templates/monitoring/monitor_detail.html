@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ monitor.name }} — Beacon</title>
+
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #080a0f;
+            color: #f4f5f7;
+            font-family: "Space Grotesk", sans-serif;
+        }
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 220px;
+            background: #0d1016;
+            border-right: 1px solid #1c2029;
+            padding: 24px 14px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 12px 35px;
+        }
+
+        .brand-mark {
+            width: 27px;
+            height: 27px;
+            border-radius: 8px;
+            background: linear-gradient(135deg,#8c7cff,#5d4df1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .brand-name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .nav-label {
+            color: #545c69;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.3px;
+            padding: 0 12px 10px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav a {
+            color: #7d8491;
+            padding: 10px 12px;
+            border-radius: 7px;
+            font-size: 13px;
+        }
+
+        .nav a:hover {
+            background: #171a22;
+            color: white;
+        }
+
+        .main {
+            flex: 1;
+            padding: 28px 34px;
+            min-width: 0;
+        }
+
+        .back {
+            color: #626b78;
+            font-size: 11px;
+        }
+
+        .back:hover {
+            color: #aaa4ff;
+        }
+
+        .monitor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: 24px 0;
+        }
+
+        .monitor-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .monitor-title h1 {
+            margin: 0;
+            font-size: 23px;
+        }
+
+        .green-dot {
+            width: 8px;
+            height: 8px;
+            background: #3cda99;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(60,218,153,.5);
+        }
+
+        .red-dot {
+            width: 8px;
+            height: 8px;
+            background: #ff6074;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(255,96,116,.5);
+        }
+
+        .monitor-url {
+            color: #5e6673;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 9px;
+            margin-top: 7px;
+        }
+
+        .badge {
+            border: 1px solid #25302b;
+            color: #3cda99;
+            background: rgba(60,218,153,.05);
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 9px;
+        }
+
+        .badge-down {
+            color: #ff6074;
+            border-color: #38242a;
+            background: rgba(255,96,116,.05);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 11px;
+            margin-bottom: 17px;
+        }
+
+        .card {
+            background: #0d1016;
+            border: 1px solid #1c2029;
+            border-radius: 9px;
+            padding: 16px;
+        }
+
+        .label {
+            color: #606875;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            font-size: 9px;
+        }
+
+        .value {
+            margin-top: 8px;
+            font-size: 19px;
+            font-weight: 600;
+        }
+
+        .green {
+            color: #3cda99;
+        }
+
+        .red {
+            color: #ff6074;
+        }
+
+        .chart-card {
+            margin-bottom: 17px;
+        }
+
+        .card-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .chart {
+            height: 130px;
+            border-bottom: 1px solid #1c2029;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    transparent 0,
+                    transparent 31px,
+                    #151922 32px
+                );
+        }
+
+        .chart svg {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .uptime-row {
+            display: flex;
+            gap: 3px;
+            margin-top: 15px;
+            height: 24px;
+        }
+
+        .uptime-bar {
+            flex: 1;
+            border-radius: 2px;
+            background: #3cda99;
+        }
+
+        .uptime-bar.failed {
+            background: #ff6074;
+        }
+
+        .history {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            color: #555e6b;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            font-size: 9px;
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #1c2029;
+        }
+
+        td {
+            color: #aeb4bf;
+            font-size: 10px;
+            padding: 12px;
+            border-bottom: 1px solid #151922;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .incident-banner {
+            margin-bottom: 17px;
+            padding: 16px;
+            border: 1px solid #542631;
+            background: rgba(255,96,116,.06);
+            border-radius: 9px;
+        }
+
+        .incident-title {
+            color: #ff6074;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .incident-text {
+            color: #777f8b;
+            font-size: 10px;
+            margin-top: 6px;
+        }
+
+        .incident-time {
+            color: #535c69;
+            font-size: 9px;
+            margin-top: 9px;
+        }
+
+        @media(max-width:900px) {
+
+            .stats {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+        }
+
+        @media(max-width:700px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .monitor-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                B
+            </div>
+
+            <div class="brand-name">
+                Beacon
+            </div>
+
+        </div>
+
+        <div class="nav-label">
+            Workspace
+        </div>
+
+        <nav class="nav">
+
+            <a href="{% url 'dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="#">
+                Status Pages
+            </a>
+
+            <a href="#">
+                Alerts
+            </a>
+
+            <a href="#">
+                Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+
+    <main class="main">
+
+
+        <a href="{% url 'dashboard' %}"
+           class="nav-link back active">
+
+            ← Dashboard
+
+        </a>
+
+
+
+        <div class="monitor-header">
+
+
+            <div>
+
+                <div class="monitor-title">
+
+                    {% if open_incident %}
+
+                        <span class="red-dot"></span>
+
+                    {% else %}
+
+                        <span class="green-dot"></span>
+
+                    {% endif %}
+
+
+                    <h1>
+                        {{ monitor.name }}
+                    </h1>
+
+                </div>
+
+
+                {% if monitor.url %}
+
+                <div class="monitor-url">
+
+                    {{ monitor.url }}
+
+                </div>
+
+                {% else %}
+
+                <div class="monitor-url">
+                    Heartbeat monitor
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+
+            {% if open_incident %}
+
+                <div class="badge badge-down">
+                    ● DOWN
+                </div>
+
+            {% else %}
+
+                <div class="badge">
+                    ● OPERATIONAL
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+
+
+        <!-- INCIDENT -->
+
+        {% if open_incident %}
+
+        <div class="incident-banner">
+
+            <div class="incident-title">
+
+                Monitor is currently down
+
+            </div>
+
+            <div class="incident-text">
+
+                {{ open_incident.cause|default:"The monitor is not responding as expected." }}
+
+            </div>
+
+            <div class="incident-time">
+
+                Started {{ open_incident.started_at }}
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+
+            <div class="card">
+
+                <div class="label">
+                    Uptime
+                </div>
+
+                <div class="value green">
+                    {{ monitor_uptime|default:"—" }}%
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <div class="label">
+                    Response
+                </div>
+
+                <div class="value">
+
+                    {% if latest_check and latest_check.response_time_ms %}
+
+                        {{ latest_check.response_time_ms }} ms
+
+                    {% else %}
+
+                        —
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <div class="label">
+                    Last Check
+                </div>
+
+                <div class="value">
+
+                    {% if latest_check %}
+
+                        {{ latest_check.timestamp|date:"H:i" }}
+
+                    {% else %}
+
+                        —
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <div class="label">
+                    Expected
+                </div>
+
+                <div class="value">
+
+                    {{ monitor.expected_status }}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- RESPONSE GRAPH -->
+
+        <div class="card chart-card">
+
+            <div class="card-title">
+                Response Time
+            </div>
+
+
+            <div class="chart">
+
+                <svg viewBox="0 0 800 130"
+                     preserveAspectRatio="none">
+
+                    <defs>
+
+                        <linearGradient
+                            id="area"
+                            x1="0"
+                            x2="0"
+                            y1="0"
+                            y2="1">
+
+                            <stop
+                                offset="0%"
+                                stop-color="#7667ff"
+                                stop-opacity=".30"/>
+
+                            <stop
+                                offset="100%"
+                                stop-color="#7667ff"
+                                stop-opacity="0"/>
+
+                        </linearGradient>
+
+                    </defs>
+
+
+                    <polygon
+                        points="
+                        0,105
+                        80,102
+                        150,106
+                        220,90
+                        290,95
+                        360,70
+                        430,82
+                        500,64
+                        570,76
+                        640,52
+                        720,68
+                        800,55
+                        800,130
+                        0,130
+                        "
+                        fill="url(#area)"
+                    />
+
+
+                    <polyline
+                        points="
+                        0,105
+                        80,102
+                        150,106
+                        220,90
+                        290,95
+                        360,70
+                        430,82
+                        500,64
+                        570,76
+                        640,52
+                        720,68
+                        800,55
+                        "
+                        fill="none"
+                        stroke="#7667ff"
+                        stroke-width="2"
+                    />
+
+                </svg>
+
+            </div>
+
+
+            <div class="uptime-row">
+
+                {% for check in checks|slice:":45" %}
+
+                    {% if check.success %}
+
+                        <div class="uptime-bar"></div>
+
+                    {% else %}
+
+                        <div class="uptime-bar failed"></div>
+
+                    {% endif %}
+
+                {% empty %}
+
+                    <div class="uptime-bar"></div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CHECK HISTORY -->
+
+        <div class="card history">
+
+            <div class="card-title">
+                Check History
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Time
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            HTTP
+                        </th>
+
+                        <th>
+                            Response
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                {% for check in checks %}
+
+                <tr>
+
+                    <td>
+                        {{ check.timestamp|date:"M d, H:i:s" }}
+                    </td>
+
+
+                    <td>
+
+                        {% if check.success %}
+
+                            <span class="green">
+                                ● Success
+                            </span>
+
+                        {% else %}
+
+                            <span class="red">
+                                ● Failed
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ check.status_code|default:"—" }}
+
+                    </td>
+
+
+                    <td>
+
+                        {% if check.response_time_ms %}
+
+                            {{ check.response_time_ms }} ms
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="4">
+                        No checks yet.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+
+        <br>
+
+
+
+        <!-- INCIDENT HISTORY -->
+
+        <div class="card history">
+
+            <div class="card-title">
+                Incident History
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Started
+                        </th>
+
+                        <th>
+                            Resolved
+                        </th>
+
+                        <th>
+                            Cause
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                {% for incident in incidents %}
+
+                <tr>
+
+                    <td>
+                        {{ incident.started_at|date:"M d, H:i:s" }}
+                    </td>
+
+
+                    <td>
+
+                        {% if incident.resolved_at %}
+
+                            {{ incident.resolved_at|date:"M d, H:i:s" }}
+
+                        {% else %}
+
+                            <span class="red">
+                                Still open
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ incident.cause|default:"Monitor failure" }}
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="3">
+                        No incidents recorded.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard — Beacon</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #080a0f;
+            color: #f4f5f7;
+            font-family: "Space Grotesk", sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 220px;
+            min-height: 100vh;
+            background: #0d1016;
+            border-right: 1px solid #1c2029;
+            padding: 24px 14px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 12px 35px;
+        }
+
+        .brand-mark {
+            width: 27px;
+            height: 27px;
+            border-radius: 8px;
+            background: linear-gradient(135deg,
+                    #8c7cff,
+                    #5d4df1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .brand-name {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+        }
+
+        .nav-label {
+            color: #545c69;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.3px;
+            padding: 0 12px 10px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav a {
+            color: #7d8491;
+            padding: 10px 12px;
+            border-radius: 7px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: #171a22;
+            color: #f5f6f8;
+        }
+
+        .nav-icon {
+            width: 16px;
+            text-align: center;
+            opacity: .8;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            border-top: 1px solid #1c2029;
+            padding-top: 16px;
+        }
+
+        .user-box {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px;
+        }
+
+        .avatar {
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+            background: #242938;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa5ff;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .user-name {
+            font-size: 12px;
+            color: #d6d9df;
+        }
+
+        .user-email {
+            font-size: 10px;
+            color: #606875;
+            margin-top: 2px;
+        }
+
+        .logout-form {
+            margin-top: 8px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: #626a77;
+            text-align: left;
+            padding: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 11px;
+        }
+
+        .logout-btn:hover {
+            color: #ff7183;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            flex: 1;
+            padding: 28px 34px;
+            min-width: 0;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 28px;
+        }
+
+        .page-title {
+            margin: 0;
+            font-size: 25px;
+            letter-spacing: -0.7px;
+        }
+
+        .page-subtitle {
+            margin: 6px 0 0;
+            color: #69717e;
+            font-size: 12px;
+        }
+
+        .add-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #7667ff;
+            color: white;
+            border: 1px solid #887bff;
+            border-radius: 7px;
+            padding: 10px 15px;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 0 22px rgba(118, 103, 255, .13);
+        }
+
+        .add-btn:hover {
+            background: #8578ff;
+        }
+
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 27px;
+        }
+
+        .stat-card {
+            background: #0d1016;
+            border: 1px solid #1c2029;
+            border-radius: 9px;
+            padding: 17px 18px;
+        }
+
+        .stat-label {
+            color: #646c79;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+        }
+
+        .stat-value {
+            margin-top: 10px;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .stat-small {
+            color: #69717e;
+            font-size: 10px;
+            margin-left: 5px;
+            font-weight: 400;
+        }
+
+        .stat-green {
+            color: #40d99a;
+        }
+
+        .stat-red {
+            color: #ff6275;
+        }
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 11px;
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .section-note {
+            color: #505866;
+            font-size: 10px;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-card {
+            background: #0d1016;
+            border: 1px solid #1c2029;
+            border-radius: 9px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            color: #555e6b;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            font-weight: 500;
+            text-align: left;
+            padding: 13px 15px;
+            border-bottom: 1px solid #1c2029;
+        }
+
+        td {
+            padding: 14px 15px;
+            border-bottom: 1px solid #151922;
+            color: #b8bec8;
+            font-size: 11px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: #10131a;
+        }
+
+        .monitor-name {
+            color: #e7e9ed;
+            font-weight: 500;
+        }
+
+        .monitor-name:hover {
+            color: #9388ff;
+        }
+
+        .url-text {
+            color: #555e6b;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 9px;
+            margin-top: 4px;
+            max-width: 280px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .type {
+            color: #777f8c;
+            font-size: 10px;
+        }
+
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .dot-up {
+            background: #3cda99;
+            box-shadow: 0 0 7px rgba(60, 218, 153, .45);
+        }
+
+        .dot-down {
+            background: #ff5f73;
+            box-shadow: 0 0 7px rgba(255, 95, 115, .4);
+        }
+
+        .status-up {
+            color: #3cda99;
+        }
+
+        .status-down {
+            color: #ff6375;
+        }
+
+        .status-none {
+            color: #555e6b;
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-card {
+            min-height: 360px;
+            background: #0d1016;
+            border: 1px solid #1c2029;
+            border-radius: 9px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 45px;
+            height: 45px;
+            border: 1px solid #292e39;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5c6471;
+            margin-bottom: 15px;
+        }
+
+        .empty-card h2 {
+            font-size: 14px;
+            margin: 0 0 7px;
+        }
+
+        .empty-card p {
+            color: #5d6572;
+            font-size: 11px;
+            margin: 0 0 17px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .sidebar {
+                width: 190px;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                gap: 15px;
+                flex-direction: column;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="app">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-mark">
+                    B
+                </div>
+
+                <div class="brand-name">
+                    Beacon
+                </div>
+
+            </div>
+
+
+            <div class="nav-label">
+                Workspace
+            </div>
+
+
+            <nav class="nav">
+
+                <a href="{% url 'dashboard' %}" class="active">
+
+                    <span class="nav-icon">⌂</span>
+
+                    Dashboard
+
+                </a>
+
+
+                <a href="{% url 'status-pages' %}">
+                    Status Pages
+                </a>
+
+
+
+                <a href="{% url 'alerts-settings' %}" class="nav-link active">
+                    Alerts
+                </a>
+
+
+                <a href="{% url 'account-billing' %}">
+                    Settings
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+
+                <div class="user-box">
+
+                    <div class="avatar">
+                        {{ request.user.username|first|upper }}
+                    </div>
+
+                    <div>
+
+                        <div class="user-name">
+                            {{ request.user.username }}
+                        </div>
+
+                        <div class="user-email">
+                            {{ request.user.email|default:"Beacon user" }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
+
+                    {% csrf_token %}
+
+                    <button class="logout-btn" type="submit">
+
+                        Sign out
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- MAIN -->
+
+        <main class="main">
+
+
+            <div class="topbar">
+
+                <div>
+
+                    <h1 class="page-title">
+                        Dashboard
+                    </h1>
+
+                    <p class="page-subtitle">
+                        Monitor your services and track uptime.
+                    </p>
+
+                </div>
+
+
+                <a href="{% url 'add-monitor' %}" class="add-btn">
+
+                    + Add Monitor
+
+                </a>
+
+            </div>
+
+
+
+            <!-- STAT CARDS -->
+
+            <div class="stats">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Overall Uptime
+                    </div>
+
+                    <div class="stat-value stat-green">
+                        {{ uptime }}%
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Monitors
+                    </div>
+
+                    <div class="stat-value">
+
+                        {{ monitor_count }}
+
+                        <span class="stat-small">
+
+                            {% if down_monitors %}
+                            {{ down_monitors }} down
+                            {% else %}
+                            all up
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Open Incidents
+                    </div>
+
+                    <div class="stat-value
+                    {% if open_incidents %}
+                        stat-red
+                    {% endif %}">
+
+                        {{ open_incidents }}
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Avg Response
+                    </div>
+
+                    <div class="stat-value">
+
+                        {{ avg_response }}
+
+                        <span class="stat-small">
+                            ms
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- MONITORS -->
+
+            <div class="section-header">
+
+                <h2 class="section-title">
+                    Monitors
+                </h2>
+
+                <span class="section-note">
+                    Your services
+                </span>
+
+            </div>
+
+
+
+            {% if monitor_data %}
+
+            <div class="table-card">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Monitor
+                            </th>
+
+                            <th>
+                                Type
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Response
+                            </th>
+
+                            <th>
+                                90D Uptime
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for item in monitor_data %}
+
+                        <tr>
+
+
+                            <td>
+
+                                <a href="{% url 'monitor-detail' item.monitor.id %}" class="monitor-name">
+
+                                    {{ item.monitor.name }}
+
+                                </a>
+
+
+                                {% if item.monitor.url %}
+
+                                <div class="url-text">
+
+                                    {{ item.monitor.url }}
+
+                                </div>
+
+                                {% endif %}
+
+                            </td>
+
+
+
+                            <td>
+
+                                <span class="type">
+
+                                    {{ item.monitor.get_monitor_type_display }}
+
+                                </span>
+
+                            </td>
+
+
+
+                            <td>
+
+
+                                {% if item.is_down %}
+
+                                <span class="status status-down">
+
+                                    <span class="dot dot-down"></span>
+
+                                    Down
+
+                                </span>
+
+
+                                {% elif item.latest_check and item.latest_check.success %}
+
+                                <span class="status status-up">
+
+                                    <span class="dot dot-up"></span>
+
+                                    Up
+
+                                </span>
+
+
+                                {% else %}
+
+                                <span class="status status-none">
+
+                                    No check
+
+                                </span>
+
+                                {% endif %}
+
+
+                            </td>
+
+
+
+                            <td>
+
+                                {% if item.latest_check and item.latest_check.response_time_ms %}
+
+                                {{ item.latest_check.response_time_ms }} ms
+
+                                {% else %}
+
+                                —
+
+                                {% endif %}
+
+                            </td>
+
+
+
+                            <td>
+
+                                {{ item.uptime }}%
+
+                            </td>
+
+
+                        </tr>
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- EMPTY DASHBOARD -->
+
+            <div class="empty-card">
+
+                <div class="empty-icon">
+                    +
+                </div>
+
+                <h2>
+                    No monitors yet
+                </h2>
+
+                <p>
+                    Add your first monitor to start tracking uptime.
+                </p>
+
+                <a href="{% url 'add-monitor' %}" class="add-btn">
+
+                    + Add Monitor
+
+                </a>
+
+            </div>
+
+
+            {% endif %}
+
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

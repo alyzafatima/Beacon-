@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Account & Billing - Beacon</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #0b0f14;
+            color: #e6edf3;
+            font-family: Arial, sans-serif;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 230px;
+            background: #0f141a;
+            border-right: 1px solid #222c36;
+            padding: 25px 15px;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 10px;
+            margin-bottom: 30px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 12px;
+            border-radius: 8px;
+            color: #8b98a5;
+            text-decoration: none;
+            margin-bottom: 5px;
+        }
+
+        .nav-link:hover {
+            background: #151c24;
+            color: white;
+        }
+
+        .nav-link.active {
+            background: #18231d;
+            color: #22c55e;
+        }
+
+        .main {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .card {
+            max-width: 850px;
+            background: #111820;
+            border: 1px solid #222c36;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #303b46;
+            border-radius: 8px;
+            background: #0b0f14;
+            color: white;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: 0;
+            border-radius: 8px;
+            background: #22c55e;
+            color: #06100a;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .billing-plan {
+            border: 1px solid #303b46;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .sample {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 5px 9px;
+            border-radius: 5px;
+            background: #332d16;
+            color: #f4c95d;
+            font-size: 12px;
+        }
+
+        .muted {
+            color: #8b98a5;
+        }
+
+        @media (max-width: 750px) {
+
+            .layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: 0;
+                border-bottom: 1px solid #222c36;
+            }
+
+            .main {
+                padding: 25px 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            Beacon
+        </div>
+
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="nav-link"
+        >
+            Dashboard
+        </a>
+
+
+        <a
+            href="{% url 'status-pages' %}"
+            class="nav-link"
+        >
+            Status Pages
+        </a>
+
+
+        <a
+            href="{% url 'alerts-settings' %}"
+            class="nav-link"
+        >
+            Alerts
+        </a>
+
+
+        <a
+            href="{% url 'account-billing' %}"
+            class="nav-link active"
+        >
+            Settings
+        </a>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <div class="header">
+
+            <h1>
+                Account & Billing
+            </h1>
+
+            <p class="muted">
+                Manage your account information and plan.
+            </p>
+
+        </div>
+
+
+        <!-- ACCOUNT -->
+
+        <div class="card">
+
+            <h2>
+                Profile
+            </h2>
+
+            <p class="muted">
+                Update your account information.
+            </p>
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="field">
+
+                    <label>
+                        First Name
+                    </label>
+
+                    {{ form.first_name }}
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Last Name
+                    </label>
+
+                    {{ form.last_name }}
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Email
+                    </label>
+
+                    {{ form.email }}
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Timezone
+                    </label>
+
+                    {{ form.timezone }}
+
+                </div>
+
+
+                <button type="submit">
+                    Save Changes
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- BILLING -->
+
+        <div class="card">
+
+            <h2>
+                Billing
+            </h2>
+
+            <span class="sample">
+                SAMPLE BILLING DATA
+            </span>
+
+            <div class="billing-plan">
+
+                <h3>
+                    Pro Plan
+                </h3>
+
+                <div style="font-size: 32px;">
+                    $9
+                    <span class="muted"
+                          style="font-size: 14px;">
+                        / month
+                    </span>
+                </div>
+
+                <p class="muted">
+                    50 monitors · Advanced monitoring ·
+                    Slack alerts
+                </p>
+
+                <button type="button">
+                    Current Plan
+                </button>
+
+            </div>
+
+            <p class="muted">
+                Billing is currently illustrative only.
+                No real payment or Stripe subscription is connected.
+            </p>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
