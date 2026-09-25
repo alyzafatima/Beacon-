@@ -19,9 +19,10 @@ DEBUG = config(
 )
 
 ALLOWED_HOSTS = [
-     ".onrender.com",
+    "127.0.0.1",
+    "localhost",
+    ".onrender.com",
 ]
-
 
 # Application definition
 

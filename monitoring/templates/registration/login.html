@@ -1,31 +1,188 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Beacon - Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #0b0f14;
+            color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: #11161d;
+            border: 1px solid #242b35;
+            border-radius: 14px;
+            padding: 40px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .logo span {
+            color: #4ade80;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #8b949e;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 25px;
+        }
+
+        form p {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #c9d1d9;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 13px;
+
+            background: #0b0f14;
+            color: #f5f5f5;
+
+            border: 1px solid #303842;
+            border-radius: 8px;
+
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #4ade80;
+            box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.12);
+        }
+
+        .helptext {
+            display: block;
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        ul.errorlist {
+            list-style: none;
+            padding: 0;
+            margin: 5px 0 10px;
+            color: #f87171;
+            font-size: 13px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+
+            background: #4ade80;
+            color: #07100a;
+
+            border: none;
+            border-radius: 8px;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        button:hover {
+            background: #22c55e;
+        }
+
+        .switch-page {
+            text-align: center;
+            margin-top: 25px;
+            color: #8b949e;
+            font-size: 14px;
+        }
+
+        a {
+            color: #4ade80;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Login</h1>
+<div class="auth-container">
 
-    <form method="post">
+    <div class="auth-card">
 
-        {% csrf_token %}
+        <div class="logo">
+            Bea<span>con</span>
+        </div>
 
-        {{ form.as_p }}
+        <p class="subtitle">
+            Monitor your services with confidence
+        </p>
 
-        <button type="submit">
-            Login
-        </button>
+        <h1>Welcome Back</h1>
 
-    </form>
+        <form method="post">
 
-    <p>
-        Don't have an account?
-        <a href="{% url 'signup' %}">
-            Sign Up
-        </a>
-    </p>
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <p class="switch-page">
+            Don't have an account?
+            <a href="{% url 'signup' %}">
+                Sign Up
+            </a>
+        </p>
+
+    </div>
+
+</div>
 
 </body>
 </html>
