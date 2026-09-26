@@ -486,7 +486,7 @@ def signup(request):
 
             login(request, user)
 
-            return redirect("dashboard")
+            return redirect("login")
 
     else:
 
