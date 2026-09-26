@@ -5,13 +5,11 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Beacon - Website Monitoring</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -170,7 +168,10 @@
             border: 1px solid #222c36;
             border-radius: 12px;
             padding: 30px;
+            transition: border-color 0.3s, transform 0.3s;
         }
+
+
 
         .price-card.featured {
             border-color: #22c55e;
@@ -188,7 +189,10 @@
             line-height: 2;
         }
 
-        /* FOOTER */
+        .price-card:hover {
+            border-color: #22c55e;
+            transform: translateY(-5px);
+        }
 
         footer {
             border-top: 1px solid #222c36;
@@ -235,7 +239,6 @@
             }
 
         }
-
     </style>
 
 </head>
@@ -244,270 +247,267 @@
 <body>
 
 
-<div class="container">
+    <div class="container">
 
-    <!-- NAVBAR -->
+        <!-- NAVBAR -->
 
-    <nav>
+        <nav>
 
-        <a href="{% url 'landing' %}" class="logo">
-            Beacon
-        </a>
-
-        <div class="nav-links">
-
-            <a href="#features">
-                Features
+            <a href="{% url 'landing' %}" class="logo">
+                Beacon
             </a>
 
-            <a href="#pricing">
-                Pricing
-            </a>
+            <div class="nav-links">
 
-            <a href="{% url 'login' %}" class="login">
-                Login
-            </a>
+                <a href="#features">
+                    Features
+                </a>
 
-            <a href="{% url 'signup' %}" class="signup">
-                Get Started
-            </a>
+                <a href="#pricing">
+                    Pricing
+                </a>
 
-        </div>
+                <a href="{% url 'login' %}" class="login">
+                    Login
+                </a>
 
-    </nav>
+                <a href="{% url 'signup' %}" class="signup">
+                    Get Started
+                </a>
 
+            </div>
 
-    <!-- HERO -->
-
-    <section class="hero">
-
-        <div class="badge">
-            Reliable monitoring for your services
-        </div>
-
-        <h1>
-            Know when your systems go down.
-        </h1>
-
-        <p>
-            Beacon monitors your websites and heartbeat jobs,
-            detects failures, tracks uptime and alerts you
-            when something needs attention.
-        </p>
-
-        <a
-            href="{% url 'signup' %}"
-            class="hero-button"
-        >
-            Start Monitoring
-        </a>
-
-    </section>
+        </nav>
 
 
-    <!-- FEATURES -->
+        <!-- HERO -->
 
-    <section id="features">
+        <section class="hero">
 
-        <div class="section-title">
+            <div class="badge">
+                Reliable monitoring for your services
+            </div>
 
-            <h2>
-                Everything you need to monitor
-            </h2>
+            <h1>
+                Know when your systems go down.
+            </h1>
 
             <p>
-                Simple monitoring without unnecessary complexity.
+                Beacon monitors your websites and heartbeat jobs,
+                detects failures, tracks uptime and alerts you
+                when something needs attention.
             </p>
 
-        </div>
+            <a href="{% url 'signup' %}" class="hero-button">
+                Start Monitoring
+            </a>
+
+        </section>
 
 
-        <div class="features">
+        <!-- FEATURES -->
 
-            <div class="feature">
+        <section id="features">
 
-                <h3>
-                    HTTP Monitoring
-                </h3>
+            <div class="section-title">
+
+                <h2>
+                    Everything you need to monitor
+                </h2>
 
                 <p>
-                    Automatically check your websites and APIs
-                    and detect unexpected HTTP responses.
+                    Simple monitoring without unnecessary complexity.
                 </p>
 
             </div>
 
 
-            <div class="feature">
+            <div class="features">
 
-                <h3>
-                    Heartbeat Monitoring
-                </h3>
+                <div class="feature">
 
-                <p>
-                    Know when scheduled jobs stop reporting
-                    their expected heartbeat.
-                </p>
+                    <h3>
+                        HTTP Monitoring
+                    </h3>
 
-            </div>
+                    <p>
+                        Automatically check your websites and APIs
+                        and detect unexpected HTTP responses.
+                    </p>
 
-
-            <div class="feature">
-
-                <h3>
-                    Instant Alerts
-                </h3>
-
-                <p>
-                    Receive notifications when incidents start
-                    and when your services recover.
-                </p>
-
-            </div>
-
-
-            <div class="feature">
-
-                <h3>
-                    Incident History
-                </h3>
-
-                <p>
-                    Track failures, recoveries and monitor
-                    activity over time.
-                </p>
-
-            </div>
-
-
-            <div class="feature">
-
-                <h3>
-                    Uptime Tracking
-                </h3>
-
-                <p>
-                    See successful and failed checks and
-                    understand your service reliability.
-                </p>
-
-            </div>
-
-
-            <div class="feature">
-
-                <h3>
-                    Simple Dashboard
-                </h3>
-
-                <p>
-                    Manage your monitors and view system
-                    health from one place.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- PRICING -->
-
-    <section id="pricing">
-
-        <div class="section-title">
-
-            <h2>
-                Simple pricing
-            </h2>
-
-            <p>
-                Choose the plan that fits your monitoring needs.
-            </p>
-
-        </div>
-
-
-        <div class="pricing">
-
-            <div class="price-card">
-
-                <h3>
-                    Free
-                </h3>
-
-                <div class="price">
-                    $0
                 </div>
 
-                <ul>
-                    <li>5 monitors</li>
-                    <li>Basic uptime tracking</li>
-                    <li>Email alerts</li>
-                </ul>
 
-            </div>
+                <div class="feature">
 
+                    <h3>
+                        Heartbeat Monitoring
+                    </h3>
 
-            <div class="price-card featured">
+                    <p>
+                        Know when scheduled jobs stop reporting
+                        their expected heartbeat.
+                    </p>
 
-                <h3>
-                    Pro
-                </h3>
-
-                <div class="price">
-                    $9
-                    <small>/month</small>
                 </div>
 
-                <ul>
-                    <li>50 monitors</li>
-                    <li>Advanced monitoring</li>
-                    <li>Slack alerts</li>
-                    <li>Incident history</li>
-                </ul>
 
-            </div>
+                <div class="feature">
 
+                    <h3>
+                        Instant Alerts
+                    </h3>
 
-            <div class="price-card">
+                    <p>
+                        Receive notifications when incidents start
+                        and when your services recover.
+                    </p>
 
-                <h3>
-                    Business
-                </h3>
-
-                <div class="price">
-                    $29
-                    <small>/month</small>
                 </div>
 
-                <ul>
-                    <li>Unlimited monitors</li>
-                    <li>Advanced alerts</li>
-                    <li>Team monitoring</li>
-                    <li>Priority support</li>
-                </ul>
+
+                <div class="feature">
+
+                    <h3>
+                        Incident History
+                    </h3>
+
+                    <p>
+                        Track failures, recoveries and monitor
+                        activity over time.
+                    </p>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <h3>
+                        Uptime Tracking
+                    </h3>
+
+                    <p>
+                        See successful and failed checks and
+                        understand your service reliability.
+                    </p>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <h3>
+                        Simple Dashboard
+                    </h3>
+
+                    <p>
+                        Manage your monitors and view system
+                        health from one place.
+                    </p>
+
+                </div>
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    <!-- FOOTER -->
+        <!-- PRICING -->
 
-    <footer>
+        <section id="pricing">
 
-        <div>
-            © 2026 Beacon. Monitoring made simple.
-        </div>
+            <div class="section-title">
 
-    </footer>
+                <h2>
+                    Simple pricing
+                </h2>
+
+                <p>
+                    Choose the plan that fits your monitoring needs.
+                </p>
+
+            </div>
 
 
-</div>
+            <div class="pricing">
+
+                <div class="price-card">
+
+                    <h3>
+                        Free
+                    </h3>
+
+                    <div class="price">
+                        $0
+                    </div>
+
+                    <ul>
+                        <li>5 monitors</li>
+                        <li>Basic uptime tracking</li>
+                        <li>Email alerts</li>
+                    </ul>
+
+                </div>
+
+
+                <div class="price-card featured">
+
+                    <h3>
+                        Pro
+                    </h3>
+
+                    <div class="price">
+                        $9
+                        <small>/month</small>
+                    </div>
+
+                    <ul>
+                        <li>50 monitors</li>
+                        <li>Advanced monitoring</li>
+                        <li>Slack alerts</li>
+                        <li>Incident history</li>
+                    </ul>
+
+                </div>
+
+
+                <div class="price-card">
+
+                    <h3>
+                        Business
+                    </h3>
+
+                    <div class="price">
+                        $29
+                        <small>/month</small>
+                    </div>
+
+                    <ul>
+                        <li>Unlimited monitors</li>
+                        <li>Advanced alerts</li>
+                        <li>Team monitoring</li>
+                        <li>Priority support</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <div>
+                © 2026 Beacon. Monitoring made simple.
+            </div>
+
+        </footer>
+
+
+    </div>
 
 </body>
 
